@@ -20,6 +20,9 @@ TODOs:
 - Add testing coverage;
 - Make the dynamic graph interface more user friendly
 
+**Why topo sort is needed:**
+The most naïve approach to propagate dependencies would be to evaluate the successors of a node, and if they can't be evaluated yet, put them on hold until they can. This however, might turn into nested conditional(if) statements, which might deteriorate the performance over large "dependency" graphs. 
+
 #### 2. Beyond DAGs
 
 So what happens when we have cycles in the system? How do we resolve it.
