@@ -24,7 +24,7 @@ import warnings
 def dfs(G, topo, start, bound=None, forward=True):
     visited, stack = set(), [start]
     if bound==None:
-        bound = len(topo)
+        bound = len(topo)+1
     if forward:
         adj, comp = G.successors, lambda w: topo[w] < bound
     else:
@@ -81,14 +81,21 @@ class DynamicGraph:
         self.G.remove_edge(x, y)
         return self.topo
 
+    def add_node(self, x):
+        self.G.add_node(x)
+        neword = len(self.topo.values())+1
+        self.topo[x] = neword
+
     def add_edge(self, x, y):
+        if x not in self.G.nodes():
+            self.add_node(x)
         if y in self.G[x]: # edge already exists
             return self.topo
-        if x in self.G.nodes() and y not in self.G.nodes():
+        elif x in self.G.nodes() and y not in self.G.nodes():
             self.G.add_edge(x, y)
-            neword = max(self.topo.values())+1
+            neword = len(self.topo.values())+1
             self.topo[y] = neword
-        if x in self.G.nodes() and y in self.G.nodes():
+        elif x in self.G.nodes() and y in self.G.nodes():
             self.G.add_edge(x, y)
             new_topo = nx_add_edge(self.G, x, y, self.topo)
             self.topo = new_topo
