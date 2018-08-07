@@ -22,11 +22,13 @@ from dyanmictopo import DynamicGraph, print_topo
 from itertools import count
 import networkx as nx
 
-class Expression():
+class Expression:
     #G = DynamicGraph(nx.DiGraph())
     #counter = count()
-    def __init__(self):
-        self.G = DynamicGraph(nx.DiGraph())
+    def __init__(self, G=None):
+        if G == None:
+            G = DynamicGraph(nx.DiGraph())
+        self.G = G
 
     def propagate(self, exprname):
         return self.G.propagate(exprname)
@@ -52,6 +54,38 @@ class Expression():
                     self.G.add_edge(dep, name)
             # Finish by propagating changes
             return self.propagate(name)
+
 class System():
     def __init__(self):
         pass
+
+class ConnectedModel:
+    def __init__(self, expectedvars):
+        self.expectedvars = expectedvars
+
+class WingGeom(ConnectedModel):
+    def __init__(self, addexpectedvars):
+        ConnectedModel(addexpectedvars)
+
+    #@random_function("orientation")
+    #def orientation(self):
+    #    self.expectedvars["O_b_i"] = self.
+
+# system tree?
+# inheritance of connected model
+### class Geom(ConnectedModel):
+#
+# self.expectedvars = Variable("m"), Variable("com"), Variable("v")
+# templates m, v, com
+# self.expectedvars["m"]
+
+# Declarative syntax
+# m = connectedModel(name, rootmodel)
+# m.addexpectedvars(m, com, v)
+# mm = connectedModel(name, m) #means we will inherit from m
+
+
+### class WingGeoModel(Wing, Geometry)
+# init(expression)
+# will calculate mass, center of mass, volume; this inherits from Geom
+# in Geom calculations on expectations that m, com and v will be calculated
