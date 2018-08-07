@@ -3,6 +3,11 @@ from depexpressions import Expression
 # Example code for playing with expressions
 e = Expression()
 
+e.add(1)
+e.add(2, [1])
+
+e.add(1)
+
 # Create independent expressions
 e.add(5)
 e.add(7)
